@@ -358,45 +358,82 @@ def setup_debug_file(steam_path):
 
 def install_startup():
     import shutil
+    import subprocess
 
     os.makedirs(APPDATA_DIR, exist_ok=True)
-    shutil.copyfile(os.path.abspath(__file__), INSTALLED_SCRIPT)
 
-    pythonw = os.path.join(os.path.dirname(sys.executable), "pythonw.exe")
-    if not os.path.exists(pythonw):
-        pythonw = sys.executable
+    is_frozen = getattr(sys, "frozen", False)
+    if is_frozen:
+        target_path = sys.executable
+        target_args = ""
+    else:
+        shutil.copyfile(os.path.abspath(__file__), INSTALLED_SCRIPT)
+        pythonw = os.path.join(os.path.dirname(sys.executable), "pythonw.exe")
+        if not os.path.exists(pythonw):
+            pythonw = sys.executable
+        target_path = pythonw
+        target_args = f'"{INSTALLED_SCRIPT}"'
 
     startup_dir = os.path.join(
         os.environ.get("APPDATA", ""), r"Microsoft\Windows\Start Menu\Programs\Startup"
     )
+    shortcut_path = os.path.join(startup_dir, "SteamTLOverlay.lnk")
     vbs_path = os.path.join(startup_dir, "SteamTLOverlay.vbs")
 
-    vbs_content = (
-        'Set WshShell = CreateObject("WScript.Shell")\n'
-        f'WshShell.Run """{pythonw}"" ""{INSTALLED_SCRIPT}""", 0, False\n'
-    )
+    # 1. Windows .lnk Kısayolu (Unicode & Türkçe karakterleri tam destekler)
     try:
-        with open(vbs_path, "w", encoding="utf-8") as f:
-            f.write(vbs_content)
-        print(f"[+] Kalici script: {INSTALLED_SCRIPT}")
-        print(f"[+] Baslangic girisi olusturuldu: {vbs_path}")
-        print("[*] Bilgisayari yeniden baslattiginda script arka planda, konsolsuz calisacak.")
-        print(f"[*] Simdi elle baslatmak icin cift tikla: {vbs_path}")
-        print(f"[*] Loglari buradan takip edebilirsin: {LOG_FILE}")
+        ps_cmd = (
+            f"$s=(New-Object -ComObject WScript.Shell).CreateShortcut('{shortcut_path}');"
+            f"$s.TargetPath='{target_path}';"
+            f"$s.Arguments='{target_args}';"
+            f"$s.WorkingDirectory='{APPDATA_DIR}';"
+            f"$s.Save()"
+        )
+        subprocess.run(["powershell", "-NoProfile", "-Command", ps_cmd], capture_output=True, check=True)
+        print(f"[+] Başlangıç Kısayolu (.lnk) oluşturuldu: {shortcut_path}")
     except Exception as e:
-        print(f"[!] Baslangic girisi olusturulamadi: {e}")
+        log(f"[!] Kısayol (.lnk) oluşturulamadı: {e}")
+
+    # 2. VBScript (ANSI/MBCS kodlaması ile VBScript karakter hatası çözülür)
+    if target_args:
+        vbs_content = (
+            'Set WshShell = CreateObject("WScript.Shell")\n'
+            f'WshShell.Run """{target_path}"" {target_args}", 0, False\n'
+        )
+    else:
+        vbs_content = (
+            'Set WshShell = CreateObject("WScript.Shell")\n'
+            f'WshShell.Run """{target_path}""", 0, False\n'
+        )
+
+    try:
+        with open(vbs_path, "w", encoding="mbcs", errors="replace") as f:
+            f.write(vbs_content)
+        print(f"[+] VBScript başlangıç dosyası oluşturuldu: {vbs_path}")
+    except Exception as e:
+        log(f"[!] VBScript oluşturulamadı: {e}")
+
+    print("[*] Bilgisayarı yeniden başlattığında script arka planda, konsolsuz çalışacak.")
+    print(f"[*] Logları buradan takip edebilirsin: {LOG_FILE}")
 
 
 def uninstall_startup():
     startup_dir = os.path.join(
         os.environ.get("APPDATA", ""), r"Microsoft\Windows\Start Menu\Programs\Startup"
     )
+    shortcut_path = os.path.join(startup_dir, "SteamTLOverlay.lnk")
     vbs_path = os.path.join(startup_dir, "SteamTLOverlay.vbs")
-    if os.path.exists(vbs_path):
-        os.remove(vbs_path)
-        print(f"[+] Baslangic girisi kaldirildi: {vbs_path}")
-    else:
-        print("[*] Zaten kurulu degildi.")
+    removed = False
+    for path in (shortcut_path, vbs_path):
+        if os.path.exists(path):
+            try:
+                os.remove(path)
+                print(f"[+] Başlangıç girişi kaldırıldı: {path}")
+                removed = True
+            except Exception as e:
+                print(f"[!] Kaldırılamadı ({path}): {e}")
+    if not removed:
+        print("[*] Zaten kurulu değildi.")
 
 
 def main():
