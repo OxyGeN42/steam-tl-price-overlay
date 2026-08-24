@@ -28,12 +28,17 @@
 
 ## 📸 Ekran Görüntüleri
 
-> *Steam mağazasındaki görünüm örneği:*
+### 🛒 Öne Çıkanlar & Mağaza Vitrini
+![Forza Horizon 6 ve Mağaza Vitrini](assets/preview-featured.png)
 
-```text
-  [ -50% ]  $9.08 ₺349  ➔  $4.54 USD [ ₺ 174,70 TL ] [ ↓ -₺175 tasarruf ]
-            (Orijinal)               (İndirimli Fiyat)     (Toplam Tasarruf)
-```
+### 📋 İstek Listesi (İndirimli & Normal Fiyat Dönüşümleri)
+![İstek Listesi Görünümü](assets/preview-wishlist.png)
+
+### 🎮 Oyun Listeleri & Liste Görünümü
+![Arama ve Mağaza Listesi](assets/preview-store-list.png)
+
+### 🔲 Grid / Kart Görünümü
+![Grid İstek Listesi Görünümü](assets/preview-wishlist-grid.png)
 
 ---
 
@@ -50,7 +55,7 @@
 ### 1. Projeyi Kopyalayın ve Bağımlılıkları Yükleyin
 
 ```bash
-git clone https://github.com/KULLANICI_ADI/steam-tl-price-overlay.git
+git clone https://github.com/OxyGeN42/steam-tl-price-overlay.git
 cd steam-tl-price-overlay
 pip install websocket-client requests
 ```

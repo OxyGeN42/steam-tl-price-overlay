@@ -160,20 +160,6 @@ def build_inject_js(rate):
         ].join(';');
         var ORIG_SYM_STYLE = 'color:rgba(130,130,130,0.65);margin-right:1px;';
 
-        // Tasarruf rozeti (yesil)
-        var SAVE_STYLE = [
-            'display:inline',
-            'margin-left:4px',
-            'padding:1px 5px 1px 4px',
-            'background:rgba(55,85,15,0.85)',
-            'border-left:3px solid #a4d55d',
-            'border-radius:2px',
-            'font-size:0.78em',
-            'font-weight:600',
-            'color:#c1e06c',
-            'white-space:nowrap'
-        ].join(';');
-
         // --- Orijinal fiyat tespiti ---
         var ORIG_CLASSES = ['original_price', 'discount_original_price', 'strike'];
         function isOriginalPrice(el) {{
