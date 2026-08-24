@@ -1,7 +1,11 @@
-# Python
+# Python & Builds
 __pycache__/
 *.py[cod]
 *$py.class
+build/
+dist/
+*.egg-info/
+*.spec
 
 # Steam TL Overlay App Data & Logs
 *.log

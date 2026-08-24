@@ -42,6 +42,14 @@
 
 ---
 
+## 📦 İndirme ve Releases (Hazır Sürüm)
+
+Python veya Git kurmadan doğrudan çalıştırmak için **[Releases](https://github.com/OxyGeN42/steam-tl-price-overlay/releases)** sayfasından hazır paketi indirebilirsiniz.
+
+[![Latest Release](https://img.shields.io/github/v/release/OxyGeN42/steam-tl-price-overlay?style=for-the-badge&color=brightgreen)](https://github.com/OxyGeN42/steam-tl-price-overlay/releases/latest)
+
+---
+
 ## ⚙️ Gereksinimler
 
 - **İşletim Sistemi:** Windows

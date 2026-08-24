@@ -399,7 +399,8 @@ def uninstall_startup():
         print("[*] Zaten kurulu degildi.")
 
 
-if __name__ == "__main__":
+def main():
+    global DEBUG
     parser = argparse.ArgumentParser(description="Steam icin gercek kurla TL fiyat overlay araci")
     parser.add_argument("--setup", metavar="STEAM_PATH", help="CEF remote debugging dosyasini olusturur")
     parser.add_argument("--interval", type=int, default=2, help="Tarama araligi (saniye, varsayilan 2)")
@@ -423,3 +424,7 @@ if __name__ == "__main__":
         sys.exit(0)
 
     watch_loop(args.interval)
+
+
+if __name__ == "__main__":
+    main()
