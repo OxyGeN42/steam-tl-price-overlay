@@ -19,7 +19,6 @@
 - 🎨 **Üç Katmanlı Şık Akıllı Rozet (Badge) Tasarımı:**
   - 🔵 **Canlı Fiyat:** Steam temasıyla uyumlu dikey accent çizgili mavi TL rozeti.
   - ⚪ **İndirim Öncesi Fiyat:** İndirimli ürünlerde orijinal fiyatın hemen yanında soluk gri TL karşılığı.
-  - 🟢 **Tasarruf Göstergesi:** İndirimli ürünlerde toplamda kaç ₺ kar ettiğinizi gösteren yeşil tasarruf rozeti (`↓ -₺XXX tasarruf`).
 - 🎯 **Esnek Ve Bütüncül:** Mağaza ana sayfası, Oyun İndirilebilir İçerikleri (DLC), Paket/Bundle sayfaları, Sepet ve İstek Listesi dahil tüm Steam sayfalarında kusursuz çalışır.
 - 🧠 **Çevrimdışı & Güvenli Kur Önbelleği (Cache):** Sistem açılışında API'den güncel USD/TRY kurunu alır ve yerel diske kaydeder. İnternet kesintilerinde veya API erişim sorunlarında son kaydedilen kurdan çalışmaya devam eder.
 - 🚀 **Otomatik Başlatma (Startup):** Windows başlangıcına arka planda görünmez (konsolsuz) çalışacak şekilde tek komutla kurulabilir.
