@@ -394,20 +394,20 @@ def install_startup():
     except Exception as e:
         log(f"[!] Kısayol (.lnk) oluşturulamadı: {e}")
 
-    # 2. VBScript (ANSI/MBCS kodlaması ile VBScript karakter hatası çözülür)
+    # 2. VBScript (UTF-16 LE kodlaması ile Türkçe ve Unicode karakterler tam desteklenir)
     if target_args:
-        vbs_content = (
-            'Set WshShell = CreateObject("WScript.Shell")\n'
-            f'WshShell.Run """{target_path}"" {target_args}", 0, False\n'
-        )
+        cmd_line = f'"{target_path}" {target_args}'
     else:
-        vbs_content = (
-            'Set WshShell = CreateObject("WScript.Shell")\n'
-            f'WshShell.Run """{target_path}""", 0, False\n'
-        )
+        cmd_line = f'"{target_path}"'
+
+    escaped_cmd_line = cmd_line.replace('"', '""')
+    vbs_content = (
+        'Set WshShell = CreateObject("WScript.Shell")\n'
+        f'WshShell.Run "{escaped_cmd_line}", 0, False\n'
+    )
 
     try:
-        with open(vbs_path, "w", encoding="mbcs", errors="replace") as f:
+        with open(vbs_path, "w", encoding="utf-16") as f:
             f.write(vbs_content)
         print(f"[+] VBScript başlangıç dosyası oluşturuldu: {vbs_path}")
     except Exception as e:
